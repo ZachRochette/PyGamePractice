@@ -1,18 +1,18 @@
 import sys
+
 import pygame
 
-from scripts.entities import PhysicsEntity, Player
 from scripts.utils import load_image, load_images, Animation
+from scripts.entities import PhysicsEntity, Player
 from scripts.tilemap import Tilemap
 from scripts.clouds import Clouds
 
 
 class Game:
     def __init__(self):
-
         pygame.init()
 
-        pygame.display.set_caption('my first pygame')
+        pygame.display.set_caption('ninja game')
         self.screen = pygame.display.set_mode((1280, 960))
         self.display = pygame.Surface((320, 240))
 
@@ -61,7 +61,7 @@ class Game:
 
             self.player.update(
                 self.tilemap, (self.movement[1] - self.movement[0], 0))
-            self.player.render(self.display, offset=self.scroll)
+            self.player.render(self.display, offset=render_scroll)
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -72,7 +72,7 @@ class Game:
                         self.movement[0] = True
                     if event.key == pygame.K_RIGHT or event.key == pygame.K_d:
                         self.movement[1] = True
-                    if event.key == pygame.K_SPACE or event.key == pygame.K_UP or event.key == pygame.K_w:
+                    if event.key == pygame.K_UP or event.key == pygame.K_w or event.key == pygame.K_SPACE:
                         self.player.velocity[1] = -3
                 if event.type == pygame.KEYUP:
                     if event.key == pygame.K_LEFT or event.key == pygame.K_a:

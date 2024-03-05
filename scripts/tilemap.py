@@ -1,5 +1,6 @@
-import pygame
 import json
+
+import pygame
 
 AUTOTILE_MAP = {
     tuple(sorted([(1, 0), (0, 1)])): 0,
@@ -50,7 +51,7 @@ class Tilemap:
 
         self.tilemap = map_data['tilemap']
         self.tile_size = map_data['tile_size']
-        self.offgird_tiles = map_data['offgrid']
+        self.offgrid_tiles = map_data['offgrid']
 
     def physics_rects_around(self, pos):
         rects = []
@@ -75,10 +76,9 @@ class Tilemap:
                 tile['variant'] = AUTOTILE_MAP[neighbors]
 
     def render(self, surf, offset=(0, 0)):
-
         for tile in self.offgrid_tiles:
-            surf.blit(self.game.assets[tile['type']]
-                      [tile['variant']], (tile['pos'][0] - offset[0], tile['pos'][1] - offset[1]))
+            surf.blit(self.game.assets[tile['type']][tile['variant']],
+                      (tile['pos'][0] - offset[0], tile['pos'][1] - offset[1]))
 
         for x in range(offset[0] // self.tile_size, (offset[0] + surf.get_width()) // self.tile_size + 1):
             for y in range(offset[1] // self.tile_size, (offset[1] + surf.get_height()) // self.tile_size + 1):

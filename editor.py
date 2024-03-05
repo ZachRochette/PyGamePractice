@@ -1,4 +1,5 @@
 import sys
+
 import pygame
 
 from scripts.utils import load_images
@@ -9,10 +10,9 @@ RENDER_SCALE = 2.0
 
 class Editor:
     def __init__(self):
-
         pygame.init()
 
-        pygame.display.set_caption('Editor')
+        pygame.display.set_caption('editor')
         self.screen = pygame.display.set_mode((640, 480))
         self.display = pygame.Surface((320, 240))
 
@@ -49,9 +49,8 @@ class Editor:
         while True:
             self.display.fill((0, 0, 0))
 
-            self.scroll[0] += (self.movement[1] - self.movement[0] * 2)
-            self.scroll[1] += (self.movement[3] - self.movement[2] * 2)
-
+            self.scroll[0] += (self.movement[1] - self.movement[0]) * 2
+            self.scroll[1] += (self.movement[3] - self.movement[2]) * 2
             render_scroll = (int(self.scroll[0]), int(self.scroll[1]))
 
             self.tilemap.render(self.display, offset=render_scroll)
@@ -67,13 +66,13 @@ class Editor:
 
             if self.ongrid:
                 self.display.blit(current_tile_img, (tile_pos[0] * self.tilemap.tile_size -
-                                                     self.scroll[0], tile_pos[1] * self.tilemap.tile_size - self.scroll[1]))
+                                  self.scroll[0], tile_pos[1] * self.tilemap.tile_size - self.scroll[1]))
             else:
                 self.display.blit(current_tile_img, mpos)
 
             if self.clicking and self.ongrid:
-                self.tilemap.tilemap[str(
-                    tile_pos[0]) + ';' + str(tile_pos[1])] = {'type': self.tile_list[self.tile_group], 'variant': self.tile_variant, 'pos': tile_pos}
+                self.tilemap.tilemap[str(tile_pos[0]) + ';' + str(tile_pos[1])] = {
+                    'type': self.tile_list[self.tile_group], 'variant': self.tile_variant, 'pos': tile_pos}
             if self.right_clicking:
                 tile_loc = str(tile_pos[0]) + ';' + str(tile_pos[1])
                 if tile_loc in self.tilemap.tilemap:
@@ -97,7 +96,7 @@ class Editor:
                         self.clicking = True
                         if not self.ongrid:
                             self.tilemap.offgrid_tiles.append({'type': self.tile_list[self.tile_group], 'variant': self.tile_variant, 'pos': (
-                                mpos[0] + self.scroll[0], mpos[1], + self.scroll[1])})
+                                mpos[0] + self.scroll[0], mpos[1] + self.scroll[1])})
                     if event.button == 3:
                         self.right_clicking = True
                     if self.shift:
@@ -112,12 +111,10 @@ class Editor:
                             self.tile_group = (
                                 self.tile_group - 1) % len(self.tile_list)
                             self.tile_variant = 0
-
                         if event.button == 5:
                             self.tile_group = (
                                 self.tile_group + 1) % len(self.tile_list)
                             self.tile_variant = 0
-
                 if event.type == pygame.MOUSEBUTTONUP:
                     if event.button == 1:
                         self.clicking = False
